@@ -113,4 +113,4 @@ class ContactModelTest(TestCase):
         """
         contact = Contact.objects.get(pk=1)
         max_length = contact._meta.get_field('skype').max_length
-        self.assertEquals(max_length, 51)
+        self.assertEquals(max_length, 50)
