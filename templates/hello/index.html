@@ -8,19 +8,19 @@
           <div class="row">
               <div class="column">
                   <p>Personal Data</p>
-                  <p>First Name: Ruslan</p>
-                  <p>Last Name: Zhovniriv</p>
-                  <p>Date of birth: 15.07.1987</p>
-                  <p>Age: 32</p>
-                  <p>Bio: Developer, Full Stack</p>
+                  <p>First Name: {{ contact.first_name }}</p>
+                  <p>Last Name: {{ contact.last_name }}</p>
+                  <p>Date of birth: {{ contact.date_of_birth|date:"d.m.Y" }}</p>
+                  <p>Age: {{ age }}</p>
+                  <p>Bio: {{ contact.bio }}</p>
                   <!-- <img src="200x200.png" alt="Flowers in Chania"> -->
               </div>
               <div class="column">
                   <p>Contacts:</p>
-                  <p>email: ruszhov@gmail.com</p>
-                  <p>Skype: ruszhov</p>
-                  <p>Jabber: ruszhov@42.cc.co</p>
-                  <p>Other contacts: https://www.linkedin.com/in/ruszhov/</p>
+                  <p>email: {{ contact.email }}</p>
+                  <p>Skype: {{ contact.skype }}</p>
+                  <p>Jabber: {{ contact.jabber }}</p>
+                  <p>Other contacts: {{ contact.other_contacts }}</p>
               </div>
           </div>
       </div>

@@ -54,7 +54,9 @@ class ContactModelTest(TestCase):
             last_name='Zhovniriv',
             date_of_birth='1987-07-15',
             bio='Developer, Full Stack developper',
-            email='ruszhov@gmail.com', skype='ruszhov'
+            email='ruszhov@gmail.com',
+            skype='ruszhov',
+            jabber='ruszhov@42.cc.co'
         )
 
     def test_first_name_label(self):
@@ -111,4 +113,4 @@ class ContactModelTest(TestCase):
         """
         contact = Contact.objects.get(pk=1)
         max_length = contact._meta.get_field('skype').max_length
-        self.assertEquals(max_length, 50)
+        self.assertEquals(max_length, 51)

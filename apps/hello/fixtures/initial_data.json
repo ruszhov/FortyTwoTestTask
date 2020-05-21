@@ -19,7 +19,9 @@
       "date_of_birth": "1987-07-15",
       "bio": "Developer, Full Stack",
       "email": "ruszhov@gmail.com",
-      "skype": "ruszhov"
+      "skype": "ruszhov",
+      "jabber": "ruszhov@42.cc.co",
+      "other_contacts": "https://www.linkedin.com/in/ruszhov/"
     }
   }
 ]
