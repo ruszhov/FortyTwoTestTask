@@ -12,7 +12,7 @@
   },
   {
     "model": "hello.contact",
-    "pk": 1,
+    "id": 1,
     "fields": {
       "first_name": "Ruslan",
       "last_name": "Zhovniriv",
