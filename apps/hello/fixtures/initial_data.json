@@ -1,0 +1,27 @@
+[
+  {
+    "model": "auth.user",
+    "pk": 1,
+    "fields": {
+      "username": "admin",
+      "password": "pbkdf2_sha256$12000$rmCkBGIZGzdk$8XbcYS3FC3kL2eaWey6AmRAsHt0KClzKEqBomW+EKo4=",
+      "is_superuser": true,
+      "is_staff": true,
+      "is_active": true
+    }
+  },
+  {
+    "model": "hello.contact",
+    "pk": 1,
+    "fields": {
+      "first_name": "Ruslan",
+      "last_name": "Zhovniriv",
+      "date_of_birth": "1987-07-15",
+      "bio": "Developer, Full Stack",
+      "email": "ruszhov@gmail.com",
+      "skype": "ruszhov",
+      "jabber": "ruszhov@42.cc.co",
+      "other_contacts": "https://www.linkedin.com/in/ruszhov/"
+    }
+  }
+]
