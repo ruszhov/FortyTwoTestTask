@@ -1,0 +1,25 @@
+/* Index page styles */
+h1 {
+    text-align:center;
+}
+.column {
+  float: left;
+  width: 50%;
+  padding: 10px;
+}
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* requests page styles */
+table#html-requests {
+    width: 100%;
+}
+table td, table th {
+  padding-left: 5px;
+}
+span#new-entries {
+    font-weight: bold;
+}

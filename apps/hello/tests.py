@@ -2,7 +2,7 @@ from django.core.urlresolvers import reverse
 from django.core.urlresolvers import resolve
 from django.test import TestCase
 from django.contrib.auth.models import User
-from .views import hello
+from .views import hello, http_requests
 from .models import Contact
 
 
@@ -114,3 +114,28 @@ class ContactModelTest(TestCase):
         contact = Contact.objects.get(pk=1)
         max_length = contact._meta.get_field('skype').max_length
         self.assertEquals(max_length, 50)
+
+
+class HomeRequestsTests(TestCase):
+
+    def test_requests_status_code(self):
+        """
+        check status code
+        """
+        url = reverse('http_requests')
+        response = self.client.get(url)
+        self.assertEquals(response.status_code, 200)
+
+    def test_requests_url_resolve(self):
+        """
+        check url equals
+        """
+        url = reverse('http_requests')
+        self.assertEqual(url, '/http_requests/')
+
+    def test_requests_url_resolves_view(self):
+        """
+        check url resolving
+        """
+        view = resolve('/http_requests/')
+        self.assertEquals(view.func, http_requests)
