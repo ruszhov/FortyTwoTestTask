@@ -13,3 +13,19 @@ class Contact(models.Model):
 
     def __str__(self):
         return self.first_name, self.last_name
+
+
+class HttpRequestLog(models.Model):
+    date = models.DateTimeField('Datetime of request', db_index=True)
+    request_method = models.CharField(
+        'Request method', max_length=6, db_index=True)
+    url = models.CharField('URL', max_length=256)
+    server_protocol = models.CharField('Server Protocol', max_length=256)
+
+    def __unicode__(self):
+        return u'%s %s %s %s' % (
+                    self.date.strftime('%Y-%m-%d %H:%M:%S'),
+                    self.request_method,
+                    self.url,
+                    self.server_protocol
+                )

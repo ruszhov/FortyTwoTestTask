@@ -1,5 +1,6 @@
 from django.shortcuts import render, HttpResponse
-from models import Contact
+from models import Contact, HttpRequestLog
+import json
 
 import datetime
 
@@ -10,5 +11,8 @@ def hello(request):
     return render(request, 'hello/index.html', locals())
 
 
+
 def http_requests(request):
+    requests = HttpRequestLog.objects.all().order_by('-date')[:10]
     return render(request, 'hello/requests.html', locals())
+    pass

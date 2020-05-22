@@ -3,7 +3,8 @@ from django.core.urlresolvers import resolve
 from django.test import TestCase
 from django.contrib.auth.models import User
 from .views import hello, http_requests
-from .models import Contact
+from .models import Contact, HttpRequestLog
+import datetime
 
 
 class InitialDataTest(TestCase):
@@ -139,3 +140,28 @@ class HomeRequestsTests(TestCase):
         """
         view = resolve('/http_requests/')
         self.assertEquals(view.func, http_requests)
+
+
+class HttpLoggingRequestMiddlewareTest(TestCase):
+
+    def setUp(cls):
+        HttpRequestLog.objects.create(
+            id=1,
+            date=datetime.datetime.now(),
+            request_method='GET',
+            url='/http_requests/',
+            server_protocol='HTTP/1.1'
+        )
+
+    def test_url_request_method(self):
+        """
+        checking request method
+        :return:
+        """
+
+        url = reverse('http_requests')
+        entry = HttpRequestLog.objects.get(id=1)
+        # self.assertEquals(entry, None)
+        self.assertEquals(url, '/http_requests/')
+        self.assertEquals(entry.request_method, 'GET')
+
