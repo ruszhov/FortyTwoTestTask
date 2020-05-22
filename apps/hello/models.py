@@ -12,4 +12,4 @@ class Contact(models.Model):
     other_contacts = models.TextField(max_length=200, blank=True, null=False)
 
     def __str__(self):
-        return '%s %s' % self.first_name
+        return self.first_name, self.last_name
