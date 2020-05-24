@@ -53,6 +53,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'fortytwo_test_task.settings.middleware.HttpLoggingRequestMiddleware',
 )
 
 ROOT_URLCONF = 'fortytwo_test_task.urls'
@@ -132,3 +134,5 @@ SOUTH_TESTS_MIGRATE = False
 FIXTURE_DIRS = (
     os.path.join(BASE_DIR, 'apps/hello/fixtures'),
 )
+
+ENABLE_HTTP_REQUEST_LOGGING = True

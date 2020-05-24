@@ -11,8 +11,14 @@ def hello(request):
     return render(request, 'hello/index.html', locals())
 
 
-
 def http_requests(request):
-    requests = HttpRequestLog.objects.all().order_by('-date')[:10]
-    return render(request, 'hello/requests.html', locals())
+    if request.is_ajax():
+        response_data = {}
+        response_data['total'] = len(HttpRequestLog.objects.all())
+        return HttpResponse(json.dumps(response_data),
+                            content_type="application/json")
+    else:
+        requests = HttpRequestLog.objects.all().order_by('-date')[:10]
+        return render(request, 'hello/requests.html', locals())
+
     pass

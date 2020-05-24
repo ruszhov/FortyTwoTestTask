@@ -14,7 +14,7 @@ h1 {
 }
 
 /* requests page styles */
-table#html-requests {
+table#http-requests {
     width: 100%;
 }
 table td, table th {

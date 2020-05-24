@@ -7,8 +7,8 @@
 <div class="container">
 <h1>42 Coffee Cups Test Assignment #3</h1>
     <p><a class="btn btn-primary" href="{% url 'home' %}">back to main page</a></p>
-    <p>New Entries: <span id="new-entries">3</span></p>
-    <table class="html-requests table-bordered" id="html-requests">
+    <p>New Entries: <span id="new-entries">0</span></p>
+    <table class="http-requests table-bordered" id="http-requests">
         <thead>
         <tr>
             <th>ID</th>
@@ -19,77 +19,15 @@
         </tr>
         </thead>
         <tbody>
+        {% for request in requests %}
         <tr>
-            <td>10</td>
-            <td>May 22, 2020, 15:30 p.m.</td>
-            <td>GET</td>
-            <td>/</td>
-            <td>HTTP/1.1</td>
+            <td>{{ request.pk }}</td>
+            <td>{{ request.date }}</td>
+            <td>{{ request.request_method }}</td>
+            <td>{{ request.url }}</td>
+            <td>{{ request.server_protocol }}</td>
         </tr>
-        <tr>
-        <tr>
-            <td>9</td>
-            <td>May 22, 2020, 15:30 p.m.</td>
-            <td>GET</td>
-            <td>/</td>
-            <td>HTTP/1.1</td>
-        </tr>
-        <tr>
-            <td>8</td>
-            <td>May 22, 2020, 15:30 p.m.</td>
-            <td>GET</td>
-            <td>/</td>
-            <td>HTTP/1.1</td>
-        </tr>
-        <tr>
-            <td>7</td>
-            <td>May 22, 2020, 15:30 p.m.</td>
-            <td>GET</td>
-            <td>/</td>
-            <td>HTTP/1.1</td>
-        </tr>
-        <tr>
-            <td>6</td>
-            <td>May 22, 2020, 15:30 p.m.</td>
-            <td>GET</td>
-            <td>/</td>
-            <td>HTTP/1.1</td>
-        </tr>
-        <tr>
-            <td>5</td>
-            <td>May 22, 2020, 15:30 p.m.</td>
-            <td>GET</td>
-            <td>/</td>
-            <td>HTTP/1.1</td>
-        </tr>
-        <tr>
-            <td>4</td>
-            <td>May 22, 2020, 15:30 p.m.</td>
-            <td>GET</td>
-            <td>/</td>
-            <td>HTTP/1.1</td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td>May 22, 2020, 15:30 p.m.</td>
-            <td>GET</td>
-            <td>/</td>
-            <td>HTTP/1.1</td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>May 22, 2020, 15:30 p.m.</td>
-            <td>GET</td>
-            <td>/</td>
-            <td>HTTP/1.1</td>
-        </tr>
-        <tr>
-            <td>1</td>
-            <td>May 22, 2020, 15:30 p.m.</td>
-            <td>GET</td>
-            <td>/</td>
-            <td>HTTP/1.1</td>
-        </tr>
+        {% endfor %}
         </tbody>
     </table>
 </div>
