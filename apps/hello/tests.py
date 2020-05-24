@@ -163,4 +163,4 @@ class HttpLoggingRequestMiddlewareTest(TestCase):
         entry = HttpRequestLog.objects.get(id=1)
         # self.assertEquals(entry, None)
         self.assertEquals(url, '/http_requests/')
-        self.assertEquals(entry.request_method, 'POST')
+        self.assertEquals(entry.request_method, 'GET')
