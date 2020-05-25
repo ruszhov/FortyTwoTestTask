@@ -1,9 +1,11 @@
 from django.core.urlresolvers import reverse
 from django.core.urlresolvers import resolve
 from django.test import TestCase
+from django.test import Client
 from django.contrib.auth.models import User
 from .views import hello, http_requests
 from .models import Contact, HttpRequestLog
+from .forms import ContactForm
 import datetime
 
 
@@ -164,3 +166,84 @@ class HttpLoggingRequestMiddlewareTest(TestCase):
         # self.assertEquals(entry, None)
         self.assertEquals(url, '/http_requests/')
         self.assertEquals(entry.request_method, 'GET')
+
+
+# class ContactFormTest(TestCase):
+#
+#     def setUp(self):
+#         self.client = Client()
+#
+#         self.admin = Client()
+#         self.admin.login(username='admin', password='admin')
+#
+#         self._contact = {
+#             "first_name": "Ruslan",
+#             "last_name": "Zhovniriv",
+#             "date_of_birth": "1987-07-15",
+#             "bio": "Developer, Full Stack",
+#             "email": "ruszhov@gmail.com",
+#             "skype": "ruszhov",
+#             "jabber": "ruszhov@42.cc.co",
+#             "other_contacts": "https://www.linkedin.com/in/ruszhov/"
+#         }
+#
+#     def auth_redirect_test(self):
+#         response = self.client.get(reverse('edit-form1'))
+#         print('Response:', response)
+#         self.failUnlessEqual(response.status_code, 302)
+#
+#
+#     def form_validation_test(self):
+#         wrong_contact = self._contact.copy()
+#         wrong_contact['last_name'] = 'LastName'
+#         wrong_contact['email'] = 'some'
+#         wrong_contact['date_of_birth'] = '15'
+#
+#         response = self.admin.post(
+#             reverse('edit-form'),
+#             wrong_contact, follow=True
+#         )
+#
+#         print(response)
+#
+#         self.assertContains(response, 'Fix errors below, please')
+#         self.assertContains(response, 'This field is required')
+#         self.assertContains(response, 'Enter a valid e-mail address')
+#         self.assertContains(response, 'Enter a valid date')
+
+class ContactFormTest(TestCase):
+    def setUp(self):
+        self.client = Client()
+
+        self.admin = Client()
+        self.admin.login(username='admin', password='admin')
+
+        self._contact = {
+            "first_name": "Ruslan",
+            "last_name": "Zhovniriv",
+            "date_of_birth": "1987-07-15",
+            "bio": "Developer, Full Stack",
+            "email": "ruszhov@gmail.com",
+            "skype": "ruszhov",
+            "jabber": "ruszhov@42.cc.co",
+            "other_contacts": "https://www.linkedin.com/in/ruszhov/",
+        }
+
+    def test_auth_redirect(self):
+        response = self.client.get(reverse('edit-form'))
+        self.failUnlessEqual(response.status_code, 200)
+
+    def test_form(self):
+        form_data = self._contact.copy()
+        form = ContactForm(data=form_data)
+        self.assertTrue(form.is_valid())
+
+    def test_blank_data(self):
+        entry = Contact.objects.get(pk=1)
+        form = ContactForm({}, instance=entry)
+        self.assertFalse(form.is_valid())
+        self.assertEqual(form.errors, {
+            'first_name': [u'This field is required.'],
+            'last_name': [u'This field is required.'],
+            'email': [u'This field is required.']
+        })
