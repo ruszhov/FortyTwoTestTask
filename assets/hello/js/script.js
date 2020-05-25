@@ -1,4 +1,5 @@
-$(document).ready(function() {
+jQuery(function($) {
+    $(document).ready(function() {
 	const interval = 3000;
 	const ajax_call = function() {
 	  $.ajax({
@@ -12,12 +13,16 @@ $(document).ready(function() {
 			const tableValue = parseInt($(".http-requests td:first").text());
 			const newEntries = total - tableValue
 			$('#new-entries').html(newEntries)
-			document.title = `(${newEntries}) - 42 CC Ticket#3`;
+			if (window.location.pathname == '/http_requests/'){
+				document.title = `(${newEntries}) - 42 CC Ticket#3`;
+			};
 		}
 	  })
 	};
 	setInterval(ajax_call, interval);
-
 });
+});
+
+
 
 

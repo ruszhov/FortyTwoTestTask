@@ -12,6 +12,15 @@ h1 {
   display: table;
   clear: both;
 }
+.column {
+  padding: 1% 5%;
+}
+.other, .bio {
+    padding-bottom: 40px;
+}
+.card {
+  margin-top: 10%;
+}
 
 /* requests page styles */
 table#http-requests {

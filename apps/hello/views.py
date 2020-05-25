@@ -1,5 +1,6 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, redirect
 from models import Contact, HttpRequestLog
+from forms import ContactForm
 import json
 
 import datetime
@@ -21,4 +22,6 @@ def http_requests(request):
         requests = HttpRequestLog.objects.all().order_by('-date')[:10]
         return render(request, 'hello/requests.html', locals())
 
-    pass
+
+def edit_form(request):
+    return render(request, 'hello/edit_form.html', locals())
