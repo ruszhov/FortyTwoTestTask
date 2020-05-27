@@ -1,7 +1,9 @@
 42cc-pystyle==0.0.16
 Django==1.6.7
+django-widget-tweaks==1.4.8
 flake8==2.6.2
 mccabe==0.5.3
+Pillow==6.2.2
 pycodestyle==2.0.0
 pyflakes==1.2.3
 South==0.7.4
