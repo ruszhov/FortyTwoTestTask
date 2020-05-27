@@ -191,7 +191,7 @@ class ContactFormTest(TestCase):
         check status code
         """
         response = self.client.get(reverse('edit-form'))
-        self.failUnlessEqual(response.status_code, 200)
+        self.failUnlessEqual(response.status_code, 302)
 
     def test_form(self):
         """
