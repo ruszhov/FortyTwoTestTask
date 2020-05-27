@@ -1,4 +1,5 @@
 from django.db import models
+from PIL import Image
 
 
 class Contact(models.Model):
@@ -10,9 +11,19 @@ class Contact(models.Model):
     skype = models.CharField(max_length=50, blank=True, null=False)
     jabber = models.CharField(max_length=50, blank=True, null=False)
     other_contacts = models.TextField(max_length=200, blank=True, null=False)
+    photo = models.ImageField(upload_to='%Y-%m-%d', null=True, blank=True)
 
     def __str__(self):
         return self.first_name, self.last_name
+
+    def save(self, *args, **kwargs):
+        super(Contact, self).save(*args, **kwargs)
+
+        if self.photo:
+            size = 200, 200
+            image = Image.open(self.photo.path)
+            image.thumbnail(size, Image.ANTIALIAS)
+            image.save(self.photo.path)
 
 
 class HttpRequestLog(models.Model):

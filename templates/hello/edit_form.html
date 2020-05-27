@@ -1,45 +1,52 @@
 {% extends "base.html" %}
 
+{% load static form_tags %}
+
 {% block title %}42 CC Ticket#3{%endblock%}
 
 {% block content %}
 
 <div class="container">
 <h1>42 Coffee Cups Test Assignment #5</h1>
-          <form class="main-form ">
+          <form id="main-form" action="{% url 'ajax_submit' %}" enctype="multipart/form-data" method="POST">
+              {% csrf_token %}
               <div class="row">
                   <div class="column">
                     <div class="main">
 
                      <div class="form-group row">
-                      <label for="firstName" class="col-md-4 col-form-label">First Name:</label>
+                      <label class="col-md-4 col-form-label">First Name:</label>
                       <div class="col-md-8">
-                        <input type="text" class="form-control" id="firstName">
+                          {{ form.first_name|add_css:"form-control" }}{% if field.errors %}{{ error }}{% endif %}
                       </div>
                      </div>
 
                     <div class="form-group row">
-                      <label for="lastName" class="col-md-4 col-form-label">Last Name:</label>
+                      <label for="id_last_name" class="col-md-4 col-form-label">Last Name:</label>
                       <div class="col-md-8">
-                        <input type="text" class="form-control" id="lastName">
+<!--                        <input type="text" class="form-control" id="lastName">-->
+                          {{ form.last_name|add_css:"form-control" }}{% if field.errors %}{{ error }}{% endif %}
                       </div>
                     </div>
 
                     <div class="form-group row">
-                      <label for="datepicker" class="col-md-4 col-form-label">Date of birth:</label>
+                      <label for="id_date_of_birth" class="col-md-4 col-form-label">Date of birth:</label>
                       <div class="col-md-8">
-                        <input type="text" class="form-control" id="datepicker" data-provide="datepicker">
+<!--                        <input type="text" class="form-control" id="datepicker" data-provide="datepicker">-->
+                          {{ form.date_of_birth|add_css:"form-control" }}{% if field.errors %}{{ error }}{% endif %}
                       </div>
                     </div>
 
                     <div class="form-group row">
-                      <label for="photo" class="col-md-4 col-form-label">Photo:</label>
+                      <label for="id_photo" class="col-md-4 col-form-label">Photo:</label>
                       <div class="col-md-8">
-                        <input type="text" class="form-control" id="photo">
+<!--                        <input type="text" class="form-control" id="photo">-->
+                          {{ form.photo }}{% if field.errors %}{{ error }}{% endif %}
                       </div>
                     </div>
-
-                      <img src="/uploads/200x200.png" alt="photo" height="200" width="200">
+                    {% if entry.photo %}
+                      <p><img id="img_id" src="{{ entry.photo.url }}" alt="{{ entry.first_name }}'s photo" width="200" height="200"/></p>
+                    {% endif %}
 
                     <p>
                       <div class="form-group row">
@@ -56,50 +63,62 @@
                     <div class="main">
 
                       <div class="form-group row">
-                      <label for="email" class="col-md-4 col-form-label">Email:</label>
+                      <label for="id_email" class="col-md-4 col-form-label">Email:</label>
                       <div class="col-md-8">
-                        <input type="text" class="form-control" id="email">
+<!--                        <input type="text" class="form-control" id="email">-->
+                          {{ form.email|add_css:"form-control" }}{% if field.errors %}{{ error }}{% endif %}
                       </div>
                      </div>
 
                       <div class="form-group row">
-                      <label for="skype" class="col-md-4 col-form-label">Skype:</label>
+                      <label for="id_skype" class="col-md-4 col-form-label">Skype:</label>
                       <div class="col-md-8">
-                        <input type="text" class="form-control" id="skype">
+<!--                        <input type="text" class="form-control" id="skype">-->
+                          {{ form.skype|add_css:"form-control" }}{% if field.errors %}{{ error }}{% endif %}
                       </div>
                      </div>
 
                       <div class="form-group row">
-                      <label for="jabber" class="col-md-4 col-form-label">Jabber:</label>
+                      <label for="id_jabber" class="col-md-4 col-form-label">Jabber:</label>
                       <div class="col-md-8">
-                        <input type="text" class="form-control" id="jabber">
+<!--                        <input type="text" class="form-control" id="jabber">-->
+                          {{ form.jabber|add_css:"form-control" }}{% if field.errors %}{{ error }}{% endif %}
                       </div>
                      </div>
 
                       <div class="form-group row">
-                      <label for="other" class="col-md-4 col-form-label">Jabber:</label>
+                      <label for="id_other_contacts" class="col-md-4 col-form-label">Other:</label>
                       <div class="col-md-8">
-                        <textarea type="text" class="form-control area" id="other"></textarea>
+<!--                        <textarea type="text" class="form-control area" id="other"></textarea>-->
+                          {{ form.other_contacts|add_css:"form-control" }}{% if field.errors %}{{ error }}{% endif %}
                       </div>
                      </div>
 
                       <div class="form-group row">
-                      <label for="bio" class="col-md-4 col-form-label">Bio:</label>
-                      <div class="col-md-8">
-                        <textarea type="text" class="form-control area" id="bio"></textarea>
+                      <label for="id_bio" class="col-md-4 col-form-label">Bio:</label>
+                      <div class="col-md-8 bio">
+<!--                        <textarea type="text" class="form-control area" id="bio"></textarea>-->
+                          {{ form.bio|add_css:"form-control" }}{% if field.errors %}{{ error }}{% endif %}
                       </div>
                      </div>
                     </div>
                   </div>
               </div>
+              </form>
               <hr>
               <a href="{% url 'http_requests' %}">requests</a>
-          </form>
+
+    <div class="d-flex justify-content-center">
+      <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
 </div>
+
 
 <script>
 
-    $('#datepicker').datepicker({
+    $('#id_date_of_birth').datepicker({
 	uiLibrary: 'bootstrap4',
 	iconsLibrary: 'fontawesome',
 	// minDate: 0,
