@@ -12,15 +12,12 @@ login_url = '/login/'
 def hello(request):
     contact = Contact.objects.all().first()
     age = int((datetime.date.today() - contact.date_of_birth).days / 365.25)
-    if 'test' in request.session:
-        test = request.session['test']
-        print(test)
-    return render(request, 'hello/index.html', locals())
+    return render(request, 'hello/index.html', {'contact': contact, 'age': age})
 
 
 def http_requests(request):
     requests = HttpRequestLog.objects.all().order_by('-date')[:10]
-    return render(request, 'hello/requests.html', locals())
+    return render(request, 'hello/requests.html', {'requests': requests})
 
 
 def ajax_request(request):
@@ -34,7 +31,7 @@ def ajax_request(request):
 def edit_form(request):
     entry = Contact.objects.all().first()
     form = ContactForm(instance=entry)
-    return render(request, 'hello/edit_form.html', locals())
+    return render(request, 'hello/edit_form.html', {'form': form, 'entry': entry})
 
 
 @login_required(login_url=login_url)
@@ -46,4 +43,3 @@ def ajax_submit(request):
             form.save()
             return HttpResponse(json.dumps({'success': 'success'}),
                                 content_type="application/json")
-    return HttpResponse("form not valid")
