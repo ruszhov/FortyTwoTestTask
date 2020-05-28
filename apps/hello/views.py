@@ -10,7 +10,7 @@ login_url = '/login/'
 
 
 def hello(request):
-    contact = Contact.objects.get(pk=1)
+    contact = Contact.objects.all().first()
     age = int((datetime.date.today() - contact.date_of_birth).days / 365.25)
     if 'test' in request.session:
         test = request.session['test']
@@ -46,5 +46,4 @@ def ajax_submit(request):
             form.save()
             return HttpResponse(json.dumps({'success': 'success'}),
                                 content_type="application/json")
-        else:
-            return HttpResponse("form not valid")
+    return HttpResponse("form not valid")

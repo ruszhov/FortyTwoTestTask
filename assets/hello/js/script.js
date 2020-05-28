@@ -79,13 +79,14 @@ function showResponse(responseText, statusText, xhr, $form)  {
 //JS photo preview
 $('#id_photo').change(function () {
     upload_img(this);
-    console.log('changed')
+    // console.log('changed')
 });
 function upload_img(input) {
     if (input.files && input.files[0]) {
         const reader = new FileReader();
 
         reader.onload = function (e) {
+
             $('#img_id').attr('src', e.target.result);
             $('#img_id').attr('width', 200);
             $('#img_id').attr('height', 200);

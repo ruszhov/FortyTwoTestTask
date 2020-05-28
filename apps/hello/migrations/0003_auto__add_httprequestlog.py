@@ -8,6 +8,8 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
+        # Deleting model 'HttpRequestLog'
+        db.delete_table(u'hello_httprequestlog')
         # Adding model 'HttpRequestLog'
         db.create_table(u'hello_httprequestlog', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
