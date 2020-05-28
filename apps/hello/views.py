@@ -12,12 +12,14 @@ login_url = '/login/'
 def hello(request):
     contact = Contact.objects.all().first()
     age = int((datetime.date.today() - contact.date_of_birth).days / 365.25)
-    return render(request, 'hello/index.html', {'contact': contact, 'age': age})
+    return render(request, 'hello/index.html',
+                  {'contact': contact, 'age': age})
 
 
 def http_requests(request):
     requests = HttpRequestLog.objects.all().order_by('-date')[:10]
-    return render(request, 'hello/requests.html', {'requests': requests})
+    return render(request, 'hello/requests.html',
+                  {'requests': requests})
 
 
 def ajax_request(request):
@@ -31,7 +33,8 @@ def ajax_request(request):
 def edit_form(request):
     entry = Contact.objects.all().first()
     form = ContactForm(instance=entry)
-    return render(request, 'hello/edit_form.html', {'form': form, 'entry': entry})
+    return render(request, 'hello/edit_form.html',
+                  {'form': form, 'entry': entry})
 
 
 @login_required(login_url=login_url)
