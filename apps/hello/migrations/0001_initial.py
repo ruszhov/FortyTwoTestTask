@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
+import datetime
 from south.db import db
 from south.v2 import SchemaMigration
+from django.db import models
 
 
 class Migration(SchemaMigration):
@@ -21,9 +23,22 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal(u'hello', ['Contact'])
 
+        # Adding model 'HttpRequestLog'
+        db.create_table(u'hello_httprequestlog', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('date', self.gf('django.db.models.fields.DateTimeField')(db_index=True)),
+            ('request_method', self.gf('django.db.models.fields.CharField')(max_length=6, db_index=True)),
+            ('url', self.gf('django.db.models.fields.CharField')(max_length=256)),
+            ('server_protocol', self.gf('django.db.models.fields.CharField')(max_length=256)),
+        ))
+        db.send_create_signal(u'hello', ['HttpRequestLog'])
+
     def backwards(self, orm):
         # Deleting model 'Contact'
         db.delete_table(u'hello_contact')
+
+        # Deleting model 'HttpRequestLog'
+        db.delete_table(u'hello_httprequestlog')
 
     models = {
         u'hello.contact': {
@@ -38,6 +53,14 @@ class Migration(SchemaMigration):
             'other_contacts': ('django.db.models.fields.TextField', [], {'max_length': '200', 'blank': 'True'}),
             'photo': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
             'skype': ('django.db.models.fields.CharField', [], {'max_length': '50', 'blank': 'True'})
+        },
+        u'hello.httprequestlog': {
+            'Meta': {'object_name': 'HttpRequestLog'},
+            'date': ('django.db.models.fields.DateTimeField', [], {'db_index': 'True'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'request_method': ('django.db.models.fields.CharField', [], {'max_length': '6', 'db_index': 'True'}),
+            'server_protocol': ('django.db.models.fields.CharField', [], {'max_length': '256'}),
+            'url': ('django.db.models.fields.CharField', [], {'max_length': '256'})
         }
     }
 
