@@ -6,6 +6,9 @@ from south.v2 import SchemaMigration
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
+        # Deleting model 'Contact'
+        db.delete_table(u'hello_contact')
+
         # Adding model 'Contact'
         db.create_table(u'hello_contact', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
