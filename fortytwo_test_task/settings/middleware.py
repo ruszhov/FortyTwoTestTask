@@ -9,14 +9,13 @@ class HttpLoggingRequestMiddleware(object):
     """
 
     def process_request(self, request):
-        if getattr(settings, 'ENABLE_HTTP_REQUEST_LOGGING'):
-            log = HttpRequestLog(
-                            date=datetime.now(),
-                            request_method=request.META.get(
-                                'REQUEST_METHOD', '?'),
-                            url=request.path[:256],
-                            server_protocol=request.META.get(
-                                'SERVER_PROTOCOL', '?')
-                        )
-            log.save()
-        pass
+
+        log = HttpRequestLog(
+            date=datetime.now(),
+            request_method=request.META.get(
+                'REQUEST_METHOD', '?'),
+            url=request.path[:256],
+            server_protocol=request.META.get(
+                'SERVER_PROTOCOL', '?')
+        )
+        log.save() if log.url != '/ajax_request/' else False
