@@ -4,6 +4,7 @@ from django.test import TestCase
 from django.contrib.auth.models import User
 from .views import hello
 from .models import Contact
+from django.test import Client
 
 
 class InitialDataTest(TestCase):
@@ -114,3 +115,21 @@ class ContactModelTest(TestCase):
         contact = Contact.objects.get(pk=1)
         max_length = contact._meta.get_field('skype').max_length
         self.assertEquals(max_length, 50)
+
+
+class TestPage(TestCase):
+
+    def setUp(self):
+        self.client = Client()
+
+    def test_index_page(self):
+        """
+        checking index page, template, context
+        """
+        contact = Contact.objects.get(pk=1)
+        url = reverse('home')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'hello/index.html')
+        self.assertEqual(response.context['contact'], contact)
+        self.assertContains(response, 'ruszhov@42.cc.co')
