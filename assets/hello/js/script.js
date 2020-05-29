@@ -8,15 +8,19 @@ const ajax_call = function() {
 	cache: false,
 	success: function(data){
 		const total = JSON.parse(data)["total"];
-		const tableValue = parseInt($("table#http-requests td:first").text());
-		const newEntries = total - tableValue;
-		$('#new-entries').html(newEntries);
-		if(newEntries != 0){
-		    if (window.location.pathname == '/http_requests/'){
-		    document.title = `(${newEntries}) - 42 CC Ticket#3`;
-        }
-      }
-	}
+		console.log(total)
+		if(total != 0){
+			if (window.location.pathname != '/http_requests/'){
+		    document.title = `(${total}) - 42 CC Ticket#3`;
+        	}
+			else{
+			document.title = `42 CC Ticket#3`;
+			}
+		}
+		else{
+			document.title = `42 CC Ticket#3`;
+		}
+	 }
   })
 };
 setInterval(ajax_call, interval);

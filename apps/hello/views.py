@@ -24,7 +24,10 @@ def http_requests(request):
 
 def ajax_request(request):
     response_data = {}
-    response_data['total'] = len(HttpRequestLog.objects.all())
+    response_data['total'] = \
+        len(HttpRequestLog.objects.all()) - request.session['viewed_nmb'] \
+        if 'viewed_nmb' in request.session \
+        else len(HttpRequestLog.objects.all())
     return HttpResponse(json.dumps(response_data),
                         content_type="application/json")
 
