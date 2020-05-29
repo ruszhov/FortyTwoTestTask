@@ -14,12 +14,16 @@ def hello(request):
 
 def http_requests(request):
     requests = HttpRequestLog.objects.all().order_by('-date')[:10]
+    request.session['viewed_nmb'] = HttpRequestLog.objects.latest('id').id
     return render(request, 'hello/requests.html',
                   {'requests': requests})
 
 
 def ajax_request(request):
     response_data = {}
-    response_data['total'] = len(HttpRequestLog.objects.all())
+    response_data['total'] = \
+        len(HttpRequestLog.objects.all()) - request.session['viewed_nmb'] \
+        if 'viewed_nmb' in request.session \
+        else len(HttpRequestLog.objects.all())
     return HttpResponse(json.dumps(response_data),
                         content_type="application/json")
