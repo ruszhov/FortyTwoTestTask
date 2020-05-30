@@ -337,4 +337,4 @@ class AuditLoggerTest(TestCase):
         self.assertNotEquals(log_entry, None)
         self.assertEquals(log_entry.model_name, contact._meta.object_name)
         self.assertEquals(log_entry.instance, unicode(contact))
-        self.assertEquals(log_entry.action, unicode('deletee'))
+        self.assertEquals(log_entry.action, unicode('delete'))
