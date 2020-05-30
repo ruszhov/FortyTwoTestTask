@@ -11,14 +11,14 @@ const ajax_call = function() {
 		console.log(total)
 		if(total != 0){
 			if (window.location.pathname != '/http_requests/'){
-		    document.title = `(${total}) - 42 CC Ticket#3`;
+		    document.title = `(${total}) - 42 CC Ticket#8`;
         	}
 			else{
-			document.title = `42 CC Ticket#3`;
+			document.title = `42 CC Ticket#8`;
 			}
 		}
 		else{
-			document.title = `42 CC Ticket#3`;
+			document.title = `42 CC Ticket#8`;
 		}
 	 }
   })

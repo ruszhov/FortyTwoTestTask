@@ -44,3 +44,6 @@ table td, table th {
 span#new-entries {
     font-weight: bold;
 }
+.edit-block {
+    float: right;
+}

@@ -1,38 +1,40 @@
 {% extends "base.html" %}
 
+{% load static edit_object %}
+
 {% load staticfiles %}
 
-{% block title %}42 CC Ticket#5{%endblock%}
+{% block title %}42 CC Ticket#8{%endblock%}
 
 {% block content %}
-  <div class="container">
-  <h1>42 Coffee Cups Test Assignment #8</h1>
-  <div class="edit-block">
-    <a href="#">Edit</a>
-    <a href="#">(admin)</a>
-  </div>
-      <div class="row">
-          <div class="column">
-              <p>Personal Data</p>
-              <p>First Name: Ruslan</p>
-              <p>Last Name: Zhovniriv</p>
-              <p>Date of birth: 15.07.1987</p>
-              <p>Age: 32</p>
-              <p>Photo:</p>
-              <p><img src="" alt="photo" width="200" height="200"/></p>
+<div class="container">
+      <h1>42 Coffee Cups Test Assignment #8</h1>
+          <div class="edit-block">
+            <a href="{% url 'edit-form' %}">Edit</a>
+	        <a href="{% edit_link contact %}">(admin)</a>
           </div>
-          <div class="column">
-              <p>Contacts:</p>
-              <p>email: ruszhov@gmail.com</p>
-              <p>Skype: ruszhov</p>
-              <p>Jabber: ruszhov@42.cc.co</p>
-              <p>Other contacts:</p>
-              <p style="padding-bottom: 40px;">https://www.linkedin.com/in/ruszhov/</p>
-              <p>Bio:</p>
-              <p style="padding-bottom: 40px;">Developer, Full Stack</p>
+          <div class="row">
+              <div class="column">
+                  <p>Personal Data</p>
+                  <p>First Name: {{ contact.first_name }}</p>
+                  <p>Last Name: {{ contact.last_name }}</p>
+                  <p>Date of birth: {{ contact.date_of_birth |date:"d.m.Y" }}</p>
+                  <p>Age: {{ age }}</p>
+                  {% if contact.photo %}
+                      <p>Photo:</p>
+                      <p><img src="{{contact.photo.url}}" alt="{{ contact.first_name }}'s photo" width="200" height="200"/></p>
+                  {% endif %}
+              </div>
+              <div class="column">
+                  <p>Contacts:</p>
+                  <p>email: {{ contact.email }}</p>
+                  <p>Skype: {{ contact.skype }}</p>
+                  <p>Jabber: {{ contact.jabber }}</p>
+                  <p class="other">Other contacts: {{ contact.other_contacts }}</p>
+                  <p class="bio">Bio: {{ contact.bio }}</p>
+              </div>
           </div>
+          <hr>
+          <a href="{% url 'http_requests' %}">requests</a>
       </div>
-      <hr>
-      <a href="">requests</a>
-  </div>
 {% endblock %}

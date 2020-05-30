@@ -1,10 +1,10 @@
-from django.core.urlresolvers import reverse
-from django.core.urlresolvers import resolve
+from django.core.urlresolvers import reverse, resolve
 from django.test import TestCase
 from django.test import Client
 from django.contrib.auth.models import User
+from django.template import Template, Context
 from .views import hello, http_requests
-from .models import Contact, HttpRequestLog
+from .models import Contact, HttpRequestLog, ModelActionLog
 from .forms import ContactForm
 import datetime
 
@@ -233,3 +233,108 @@ class ContactFormTest(TestCase):
             'last_name': [u'This field is required.'],
             'email': [u'This field is required.']
         })
+
+
+class TemplateTagsTestCase(TestCase):
+
+    def setUp(self):
+        self.contact = Contact.objects.get(pk=1)
+        self.template = Template(
+            '{% load edit_object %}{% edit_link contact %}')
+
+    def test_edit_link_templatetag(self):
+        '''
+        checking admin edit url
+        :return:
+        '''
+        edit_link = self.template.render(Context(dict(contact=self.contact)))
+        self.assertEqual('/admin/hello/contact/1/', edit_link)
+
+
+class AuditLoggerTest(TestCase):
+    def setUp(self):
+        self._log_entry = {
+            "model_name": "User",
+            "instance": "admin",
+            "action": "update",
+            "created": datetime.datetime.now()
+        }
+
+        self._contact = {
+            "first_name": "Ruslan",
+            "last_name": "Zhovniriv",
+            "date_of_birth": "1987-07-15",
+            "bio": "Developer, Full Stack",
+            "email": "ruszhov@gmail.com",
+            "skype": "ruszhov",
+            "jabber": "ruszhov@42.cc.co",
+            "other_contacts": "https://www.linkedin.com/in/ruszhov/",
+        }
+
+    def test_max_length(self):
+        """
+        check max length of ModelActionLog's fields
+        """
+        logentry = ModelActionLog.objects.first()
+        max_length_model_name = logentry._meta.get_field('model_name')\
+            .max_length
+        max_length_instance = logentry._meta.get_field('instance').max_length
+        max_length_action = logentry._meta.get_field('action').max_length
+        self.assertEquals(max_length_model_name, 64)
+        self.assertEquals(max_length_instance, 64)
+        self.assertEquals(max_length_action, 16)
+
+    def test_object_create(self):
+        '''
+        Checking post_save signal, 'create' action
+        :return:
+        '''
+        count = ModelActionLog.objects.count()
+        contact = Contact.objects.create(**self._contact)
+        new_count = ModelActionLog.objects.count()
+        self.assertEqual(count + 1, new_count)
+
+        log_entry = ModelActionLog.objects.latest('created')
+        self.assertNotEquals(log_entry, None)
+        self.assertEquals(log_entry.model_name, contact._meta.object_name)
+        self.assertEquals(log_entry.instance, unicode(contact))
+        self.assertEquals(log_entry.action, unicode('create'))
+
+    def test_object_update(self):
+        '''
+        Checking post_save signal, 'update' action
+        :return:
+        '''
+        count = ModelActionLog.objects.count()
+
+        contact = Contact.objects.get()
+        contact.jabber = 'ruszhov@42.cc.co'
+        contact.save()
+
+        new_count = ModelActionLog.objects.count()
+        self.assertEqual(count + 1, new_count)
+
+        log_entry = ModelActionLog.objects.latest('created')
+        self.assertNotEquals(log_entry, None)
+        self.assertEquals(log_entry.model_name, contact._meta.object_name)
+        self.assertEquals(log_entry.instance, unicode(contact))
+        self.assertEquals(log_entry.action, unicode('update'))
+
+    def test_object_delete(self):
+        '''
+        Checking post_delete signal
+        :return:
+        '''
+        count = ModelActionLog.objects.count()
+
+        contact = Contact.objects.get()
+        contact.delete()
+
+        new_count = ModelActionLog.objects.count()
+        self.assertEqual(count + 1, new_count)
+
+        log_entry = ModelActionLog.objects.latest('created')
+        self.assertNotEquals(log_entry, None)
+        self.assertEquals(log_entry.model_name, contact._meta.object_name)
+        self.assertEquals(log_entry.instance, unicode(contact))
+        self.assertEquals(log_entry.action, unicode('deletee'))

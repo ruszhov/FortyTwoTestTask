@@ -40,3 +40,16 @@ class HttpRequestLog(models.Model):
                     self.url,
                     self.server_protocol
                 )
+
+
+class ModelActionLog(models.Model):
+    model_name = models.CharField(max_length=64)
+    instance = models.CharField(max_length=64)
+    action = models.CharField(max_length=16)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return "{} on {} ({})".format(
+            self.action,
+            self.model_name,
+            self.instance)
