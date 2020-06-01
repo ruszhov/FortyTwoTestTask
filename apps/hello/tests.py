@@ -338,3 +338,36 @@ class AuditLoggerTest(TestCase):
         self.assertEquals(log_entry.model_name, contact._meta.object_name)
         self.assertEquals(log_entry.instance, unicode(contact))
         self.assertEquals(log_entry.action, unicode('delete'))
+
+
+class HttpRequestLogPriorityTest(TestCase):
+
+    def test_logging_with_priority(self):
+        '''
+        Checking logging with priority field
+        '''
+
+        client = Client()
+        client.get('/')
+
+        entry = HttpRequestLog.objects.get(url='/')
+
+        self.assertNotEquals(entry, None)
+        self.assertEquals(entry.request_method, 'GET')
+        self.assertEquals(entry.priority, 1)
+
+    def test_sort_by_priority(self):
+        '''
+        Checking sorting by priority
+        '''
+        url = reverse('home')
+        self.client.get(url)
+        url = reverse('edit-form')
+        self.client.get(url)
+        url = reverse('http_requests')
+        self.client.get(url)
+        httplog = HttpRequestLog.objects.all()[1]
+        httplog.priority = 33
+        httplog.save()
+        self.assertEqual(
+            HttpRequestLog.objects.first().priority, httplog.priority)

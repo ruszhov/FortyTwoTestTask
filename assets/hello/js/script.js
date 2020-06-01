@@ -8,7 +8,7 @@ const ajax_call = function() {
 	cache: false,
 	success: function(data){
 		const total = JSON.parse(data)["total"];
-		console.log(total)
+		// console.log(total)
 		if(total != 0){
 			if (window.location.pathname != '/http_requests/'){
 		    document.title = `(${total}) - 42 CC Ticket#8`;

@@ -47,3 +47,6 @@ span#new-entries {
 .edit-block {
     float: right;
 }
+mark {
+  color: red;
+}

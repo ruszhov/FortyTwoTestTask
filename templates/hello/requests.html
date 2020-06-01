@@ -1,17 +1,18 @@
 {% extends "base.html" %}
 
-{% block title %}42 CC Ticket#8{%endblock%}
+{% block title %}42 CC Ticket#13{%endblock%}
 
 {% block content %}
 
 <div class="container">
-<h1>42 Coffee Cups Test Assignment #8</h1>
+<h1>42 Coffee Cups Test Assignment #13</h1>
     <p><a class="btn btn-primary" href="{% url 'home' %}">back to main page</a></p>
     <p>New Entries: <span id="new-entries">0</span></p>
     <table class="http-requests table-bordered" id="http-requests">
         <thead>
         <tr>
             <th>ID</th>
+            <th>Priority</th>
             <th>Date/time</th>
             <th>Request Method</th>
             <th>URL</th>
@@ -22,6 +23,7 @@
         {% for request in requests %}
         <tr>
             <td>{{ request.pk }}</td>
+            <td><mark>{{ request.priority }}</mark></td>
             <td>{{ request.date }}</td>
             <td>{{ request.request_method }}</td>
             <td>{{ request.url }}</td>

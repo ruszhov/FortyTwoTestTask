@@ -32,14 +32,19 @@ class HttpRequestLog(models.Model):
         'Request method', max_length=6, db_index=True)
     url = models.CharField('URL', max_length=256)
     server_protocol = models.CharField('Server Protocol', max_length=256)
+    priority = models.IntegerField(default=0, blank=False)
 
     def __unicode__(self):
-        return u'%s %s %s %s' % (
+        return u'[%s] %s %s %s %s' % (
+                    self.priority,
                     self.date.strftime('%Y-%m-%d %H:%M:%S'),
                     self.request_method,
                     self.url,
                     self.server_protocol
                 )
+
+    class Meta:
+        ordering = ['-priority']
 
 
 class ModelActionLog(models.Model):
