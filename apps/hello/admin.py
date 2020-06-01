@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Contact, HttpRequestLog
+from .models import Contact, HttpRequestLog, ModelActionLog
 
 
 class ContactAdmin(admin.ModelAdmin):
@@ -16,3 +16,11 @@ class HttpRequestLogAdmin(admin.ModelAdmin):
     class Meta:
         model = HttpRequestLog
 admin.site.register(HttpRequestLog, HttpRequestLogAdmin)
+
+
+class ModelActionLogAdmin(admin.ModelAdmin):
+    list_display = [field.name for field in ModelActionLog._meta.fields]
+
+    class Meta:
+        model = ModelActionLog
+admin.site.register(ModelActionLog, ModelActionLogAdmin)
