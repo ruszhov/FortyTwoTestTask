@@ -354,7 +354,7 @@ class HttpRequestLogPriorityTest(TestCase):
 
         self.assertNotEquals(entry, None)
         self.assertEquals(entry.request_method, 'GET')
-        self.assertEquals(entry.priority, 1)
+        self.assertEquals(entry.priority, 0)
 
     def test_sort_by_priority(self):
         '''
