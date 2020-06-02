@@ -10,8 +10,9 @@ const ajax_call = function() {
 		const total = JSON.parse(data)["total"];
 		console.log(total)
 		if(total != 0){
-			if (window.location.pathname != '/http_requests/'){
+			if (window.location.pathname == '/http_requests/'){
 		    document.title = `(${total}) - 42 CC Ticket#3`;
+		    $('span#new-entries').html(total);
         	}
 			else{
 			document.title = `42 CC Ticket#3`;
