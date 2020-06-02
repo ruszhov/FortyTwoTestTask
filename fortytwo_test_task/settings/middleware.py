@@ -1,4 +1,3 @@
-from django.conf import settings
 from apps.hello.models import HttpRequestLog
 from datetime import datetime
 
