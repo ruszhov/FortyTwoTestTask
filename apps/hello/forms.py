@@ -1,6 +1,33 @@
 from django import forms
-
+import re
+import datetime
 from .models import Contact
+
+
+regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
+
+
+def check_jabber(jabber):
+    '''
+    Check if Jabber line looks like email
+    '''
+    if jabber is not None and jabber != '':
+        if (re.search(regex, jabber)):
+            return True
+        else:
+            return False
+
+
+def check_years(birth_date):
+    '''
+    Check if age isn't longer than 100 years
+    '''
+    if birth_date is not None and birth_date != '':
+        age = datetime.datetime.today().year - birth_date.year
+        if age <= 100:
+            return True
+        else:
+            return False
 
 
 class ContactForm(forms.ModelForm):
@@ -19,6 +46,20 @@ class ContactForm(forms.ModelForm):
         self.fields['jabber'].widget.attrs['placeholder'] = 'Jabber Account'
         self.fields['other_contacts'].widget\
             .attrs['placeholder'] = 'Other Contacts'
+
+    def clean_jabber(self):
+        jabber_data = self.cleaned_data.get('jabber')
+        if check_jabber(jabber_data) is False:
+            raise forms.ValidationError(
+                'This value cant be used as Jabber account')
+        return jabber_data
+
+    def clean_date_of_birth(self):
+        date_of_birth = self.cleaned_data.get('date_of_birth')
+        if check_years(date_of_birth) is False:
+            raise forms.ValidationError(
+                "Age can't be longer than 100 years!!!!")
+        return date_of_birth
 
     class Meta:
         model = Contact

@@ -44,3 +44,7 @@ table td, table th {
 span#new-entries {
     font-weight: bold;
 }
+
+.highlight {
+    background: yellow;
+  }
