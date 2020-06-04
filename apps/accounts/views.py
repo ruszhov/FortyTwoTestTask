@@ -13,15 +13,11 @@ def user_login(request):
             cd = form.cleaned_data
             user = authenticate(
                 username=cd['username'], password=cd['password'])
-            if user is not None:
-                if user.is_active:
+            if user is not None and user.is_active:
                     login(request, user)
                     if 'next' in request.session:
                         return redirect(request.session['next'])
                     return redirect(settings.LOGIN_REDIRECT_URL)
-                else:
-                    messages.error(request, 'Account is disabled')
-                    return redirect('login')
             else:
                 messages.error(request, 'Username or password not correct')
                 return redirect('login')
