@@ -49,14 +49,14 @@ class ContactForm(forms.ModelForm):
 
     def clean_jabber(self):
         jabber_data = self.cleaned_data.get('jabber')
-        if check_jabber(jabber_data) is False:
+        if not check_jabber(jabber_data):
             raise forms.ValidationError(
                 'This value cant be used as Jabber account')
         return jabber_data
 
     def clean_date_of_birth(self):
         date_of_birth = self.cleaned_data.get('date_of_birth')
-        if check_years(date_of_birth) is False:
+        if not check_years(date_of_birth):
             raise forms.ValidationError(
                 "Age can't be longer than 100 years!!!!")
         return date_of_birth

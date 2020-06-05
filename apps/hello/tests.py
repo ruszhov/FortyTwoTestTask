@@ -215,18 +215,26 @@ class ContactFormTest(TestCase):
         view = resolve('/ajax_submit/')
         self.assertEquals(view.func, ajax_submit)
 
-    def test_blank_data(self):
+    def test_validation_data(self):
         """
-        check if fields are required
+        check custom and required validations
         :return:
         """
-        entry = Contact.objects.get(pk=1)
-        form = ContactForm({}, instance=entry)
+        data = {
+            'first_name': '',
+            'last_name': '',
+            'email': '',
+            'date_of_birth': '1901-01-06',
+            'jabber': 'sdhsjdhjdh---.@kk'
+        }
+        form = ContactForm(data=data)
         self.assertFalse(form.is_valid())
         self.assertEqual(form.errors, {
             'first_name': [u'This field is required.'],
             'last_name': [u'This field is required.'],
-            'email': [u'This field is required.']
+            'email': [u'This field is required.'],
+            'date_of_birth': [u"Age can't be longer than 100 years!!!!"],
+            'jabber': [u'This value cant be used as Jabber account']
         })
 
     def test_form_saving(self):
