@@ -50,3 +50,6 @@ span#new-entries {
 mark {
   color: red;
 }
+.highlight {
+    background: yellow;
+  }

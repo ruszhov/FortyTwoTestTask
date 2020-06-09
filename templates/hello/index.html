@@ -4,13 +4,13 @@
 
 {% load staticfiles %}
 
-{% block title %}42 CC Ticket#13 - Home{% endblock %}
+{% block title %}Home{%endblock%}
 
 {% block content %}
 <div class="container">
       <h1>42 Coffee Cups Test Assignment #13</h1>
           <div class="edit-block">
-            <a href="{% url 'edit-form' %}">Edit</a>
+            <a href="{% url 'ajax_submit' %}">Edit</a>
 	        <a href="{% edit_link contact %}">(admin)</a>
           </div>
           <div class="row">
@@ -32,6 +32,14 @@
                   <p>Jabber: {{ contact.jabber }}</p>
                   <p class="other">Other contacts: {{ contact.other_contacts }}</p>
                   <p class="bio">Bio: {{ contact.bio }}</p>
+
+                  <p>
+                      <div class="form-group row">
+                        <div class="col-sm-10">
+                          <a href="{% url 'ajax_submit' %}" type="button" class="btn btn-link">Edit</a>
+                        </div>
+                      </div>
+                    </p>
               </div>
           </div>
           <hr>

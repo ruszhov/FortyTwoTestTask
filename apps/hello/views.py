@@ -34,19 +34,17 @@ def ajax_request(request):
 
 
 @login_required(login_url=login_url)
-def edit_form(request):
-    entry = Contact.objects.all().first()
-    form = ContactForm(instance=entry)
-    return render(request, 'hello/edit_form.html',
-                  {'form': form, 'entry': entry})
-
-
-@login_required(login_url=login_url)
 def ajax_submit(request):
     current_entry = Contact.objects.all().first()
-    if request.method == 'POST':
+    if request.method == 'POST' and request.is_ajax():
         form = ContactForm(request.POST, request.FILES, instance=current_entry)
         if form.is_valid():
             form.save()
             return HttpResponse(json.dumps({'success': 'success'}),
                                 content_type="application/json")
+        else:
+            return HttpResponse(json.dumps({'error': form.errors}))
+    else:
+        form = ContactForm(instance=current_entry)
+    return render(request, 'hello/edit_form.html',
+                  {'form': form, 'entry': current_entry})

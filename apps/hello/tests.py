@@ -3,7 +3,7 @@ from django.test import TestCase
 from django.test import Client
 from django.contrib.auth.models import User
 from django.template import Template, Context
-from .views import hello, http_requests
+from .views import hello, http_requests, ajax_submit
 from .models import Contact, HttpRequestLog, ModelActionLog
 from .forms import ContactForm
 import datetime
@@ -204,35 +204,76 @@ class ContactFormTest(TestCase):
             "other_contacts": "https://www.linkedin.com/in/ruszhov/",
         }
 
-    def test_auth_redirect(self):
+    def test_form_url_view(self):
         """
-        check status code
+        check url status code, test view
         """
-        response = self.client.get(reverse('edit-form'))
-        self.failUnlessEqual(response.status_code, 302)
+        url = reverse('ajax_submit')
+        response = self.client.get(url)
+        self.assertEquals(response.status_code, 302)
 
-    def test_form(self):
+        view = resolve('/ajax_submit/')
+        self.assertEquals(view.func, ajax_submit)
+
+    def test_validation_data(self):
         """
-        check form validation
+        check custom and required validations
         :return:
         """
-        form_data = self._contact.copy()
-        form = ContactForm(data=form_data)
-        self.assertTrue(form.is_valid())
-
-    def test_blank_data(self):
-        """
-        check if field are required
-        :return:
-        """
-        entry = Contact.objects.get(pk=1)
-        form = ContactForm({}, instance=entry)
+        data = {
+            'first_name': '',
+            'last_name': '',
+            'email': '',
+            'date_of_birth': '1901-01-06',
+            'jabber': 'sdhsjdhjdh---.@kk'
+        }
+        form = ContactForm(data=data)
         self.assertFalse(form.is_valid())
         self.assertEqual(form.errors, {
             'first_name': [u'This field is required.'],
             'last_name': [u'This field is required.'],
-            'email': [u'This field is required.']
+            'email': [u'This field is required.'],
+            'date_of_birth': [u"Age can't be longer than 100 years!!!!"],
+            'jabber': [u"This value can't be used as Jabber account"]
         })
+
+    def test_form_saving(self):
+        '''
+        Checking save data with form
+        '''
+        form_url = reverse('ajax_submit')
+        # log in to acscess page
+        c = Client()
+        c.login(username='admin', password='admin')
+        r = c.get(form_url)
+        data = r.context['form'].initial
+        # generate new data
+        new_data = self._contact.copy()
+        # update some data
+        data['first_name'] = new_data['first_name']
+        data['last_name'] = new_data['last_name']
+        data['date_of_birth'] = new_data['date_of_birth']
+        data['bio'] = new_data['bio']
+        data['email'] = new_data['email']
+        data['skype'] = new_data['skype']
+        data['jabber'] = new_data['jabber']
+        data['other_contacts'] = new_data['other_contacts']
+        data['photo'] = ''
+        # post to the form
+        r = c.post(form_url, data)
+        self.assertEqual(r.status_code, 200)
+        # retrieve from DB abd check if data was saved
+        instance = Contact.objects.all()[0]
+        self.assertEqual(instance.first_name, new_data['first_name'])
+        self.assertEqual(instance.last_name, new_data['last_name'])
+        self.assertEqual(instance.date_of_birth,
+                         datetime.datetime.strptime(new_data['date_of_birth'],
+                                                    '%Y-%m-%d').date())
+        self.assertEqual(instance.bio, new_data['bio'])
+        self.assertEqual(instance.email, new_data['email'])
+        self.assertEqual(instance.jabber, new_data['jabber'])
+        self.assertEqual(instance.skype, new_data['skype'])
+        self.assertEqual(instance.other_contacts, new_data['other_contacts'])
 
 
 class TemplateTagsTestCase(TestCase):
@@ -362,7 +403,7 @@ class HttpRequestLogPriorityTest(TestCase):
         '''
         url = reverse('home')
         self.client.get(url)
-        url = reverse('edit-form')
+        url = reverse('ajax_submit')
         self.client.get(url)
         url = reverse('http_requests')
         self.client.get(url)
