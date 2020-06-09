@@ -7,7 +7,6 @@ from .views import hello, http_requests
 from .models import Contact, HttpRequestLog, ModelActionLog
 from .forms import ContactForm
 import datetime
-from django.test import Client
 
 
 class InitialDataTest(TestCase):
