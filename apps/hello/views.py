@@ -14,7 +14,7 @@ def hello(request):
 
 def http_requests(request):
     requests = HttpRequestLog.objects.all().order_by('-date')[:10]
-    request.session['viewed_nmb'] = len(HttpRequestLog.objects.all())
+    request.session['viewed_nmb'] = HttpRequestLog.objects.count()
     return render(request, 'hello/requests.html',
                   {'requests': requests})
 
@@ -22,8 +22,8 @@ def http_requests(request):
 def ajax_request(request):
     response_data = {}
     response_data['total'] = \
-        len(HttpRequestLog.objects.all()) - request.session['viewed_nmb'] \
+        HttpRequestLog.objects.count() - request.session['viewed_nmb'] \
         if 'viewed_nmb' in request.session \
-        else len(HttpRequestLog.objects.all())
+        else HttpRequestLog.objects.count()
     return HttpResponse(json.dumps(response_data),
                         content_type="application/json")

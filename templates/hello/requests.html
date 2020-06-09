@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load staticfiles %}
+
 {% block title %}42 CC Ticket#3 - Requests{%endblock%}
 
 {% block content %}
@@ -31,4 +33,7 @@
         </tbody>
     </table>
 </div>
+
+<script src="{% static 'hello/js/requests.js' %}"></script>
+
 {% endblock %}
