@@ -14,7 +14,7 @@ def hello(request):
 
 def http_requests(request):
     requests = HttpRequestLog.objects.all().order_by('-date')[:10]
-    request.session['viewed_nmb'] = HttpRequestLog.objects.latest('id').id
+    request.session['viewed_nmb'] = len(HttpRequestLog.objects.all())
     return render(request, 'hello/requests.html',
                   {'requests': requests})
 
