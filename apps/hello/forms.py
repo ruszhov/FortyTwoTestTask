@@ -51,7 +51,7 @@ class ContactForm(forms.ModelForm):
         jabber_data = self.cleaned_data.get('jabber')
         if not check_jabber(jabber_data):
             raise forms.ValidationError(
-                'This value cant be used as Jabber account')
+                "This value can't be used as Jabber account")
         return jabber_data
 
     def clean_date_of_birth(self):
