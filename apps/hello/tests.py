@@ -180,6 +180,51 @@ class HttpLoggingRequestMiddlewareTest(TestCase):
 
         url = reverse('http_requests')
         entry = HttpRequestLog.objects.get(id=1)
-        # self.assertEquals(entry, None)
         self.assertEquals(url, '/http_requests/')
         self.assertEquals(entry.request_method, 'GET')
+
+    def test_create_entries(self):
+        '''
+        create 10 entries, check if items are created (getting latest id),
+        check if returns 10 items
+        create 5 more, check if items are created (getting latest id),
+        check if returns 10 newest
+        :return:
+        '''
+
+        def create_record(id):
+            HttpRequestLog.objects.create(
+                id=id,
+                date=datetime.datetime.now(),
+                request_method='GET',
+                url='/http_requests/',
+                server_protocol='HTTP/1.1'
+            )
+        for i in range(2, 12):
+            create_record(i)
+
+        url = reverse('http_requests')
+        # makes one more item itself
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'hello/requests.html')
+
+        items = HttpRequestLog.objects.all().order_by('-date')[:10]
+        count_items = items.count()
+        latest_pk_after_create_records = HttpRequestLog.objects.latest('id')
+
+        self.assertEquals(count_items, 10)
+        self.assertEquals(latest_pk_after_create_records.id, 12)
+        self.assertEqual((response.context['requests']).count(), items.count())
+
+        # create 5 new items
+        for i in range(13, 18):
+            create_record(i)
+
+        more_items = HttpRequestLog.objects.all().order_by('-date')[:10]
+        latest_pk_after_adding_five_more_records = \
+            HttpRequestLog.objects.latest('id')
+        self.assertEquals(latest_pk_after_adding_five_more_records.id,
+                          latest_pk_after_create_records.id + 5)
+        self.assertEqual((response.context['requests']).count(),
+                         more_items.count())
