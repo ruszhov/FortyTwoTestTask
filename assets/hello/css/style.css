@@ -1,0 +1,22 @@
+h1 {
+    text-align:center;
+}
+.column {
+  float: left;
+  width: 50%;
+  padding: 10px;
+}
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.column {
+  padding: 1% 5%;
+}
+.other, .bio {
+    padding-bottom: 40px;
+}
+.card {
+  margin-top: 10%;
+}

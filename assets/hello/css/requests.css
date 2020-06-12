@@ -1,0 +1,12 @@
+table#http-requests {
+    width: 100%;
+}
+table td, table th {
+  padding-left: 5px;
+}
+span#new-entries {
+    font-weight: bold;
+}
+.highlight {
+    background: yellow;
+}

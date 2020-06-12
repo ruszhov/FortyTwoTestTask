@@ -4,11 +4,18 @@
 
 {% block title %}Edit{%endblock%}
 
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'hello/css/edit-form.css' %}" media="screen, projection"/>
+    <link rel="stylesheet" href="{% static 'hello/css/bootstrap-datepicker.min.css' %}" media="screen, projection"/>
+    <script src="{% static 'hello/js/bootstrap-datepicker.min.js' %}"></script>
+{% endblock %}
+
 {% block content %}
 
 <div class="container">
-<h1>42 Coffee Cups Test Assignment #13</h1>
-          <form id="main-form" action="{% url 'ajax_submit' %}" enctype="multipart/form-data" method="POST">
+
+<h1>42 Coffee Cups Test Assignment #5</h1>
+          <form id="main-form" action="" enctype="multipart/form-data" method="POST">
               {% csrf_token %}
               <div class="row">
                   <div class="column">
@@ -107,23 +114,9 @@
     </div>
 </div>
 
-
-<script>
-
-    $('#id_date_of_birth').datepicker({
-	uiLibrary: 'bootstrap4',
-	iconsLibrary: 'fontawesome',
-	// minDate: 0,
-	// minDate: function(){
-	//   return $('#endDate').val();
-	// },
-	locale: 'ua-ua',
-	format: 'yyyy-mm-dd',
-	// startDate: '-3d',
-	// maxDate: function () {
-	//     return $('#endDate').val();
-	// }
-})
-</script>
+{% block extra_body %}
+    <script src="{% static 'hello/js/edit-form.js' %}"></script>
+    <script src="http://malsup.github.com/jquery.form.js"></script>
+{% endblock %}
 
 {% endblock %}
