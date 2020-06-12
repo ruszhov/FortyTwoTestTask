@@ -233,7 +233,7 @@ class ContactFormTest(TestCase):
             'last_name': [u'This field is required.'],
             'email': [u'This field is required.'],
             'date_of_birth': [u"Age can't be longer than 100 years!!!!"],
-            'jabber': [u'This value cant be used as Jabber account']
+            'jabber': [u"This value can't be used as Jabber account"]
         })
 
     def test_form_saving(self):
