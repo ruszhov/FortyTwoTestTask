@@ -1,0 +1,9 @@
+textarea#id_other_contacts, textarea#id_bio {
+    height: 100px;
+}
+.spinner-border {
+    height: 6rem !important;
+    width: 6rem !important;
+    position: absolute;
+    top: 40%;
+}

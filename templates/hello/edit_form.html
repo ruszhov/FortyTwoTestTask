@@ -4,11 +4,17 @@
 
 {% block title %}Edit{%endblock%}
 
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'hello/css/edit-form.css' %}" media="screen, projection"/>
+    <link rel="stylesheet" href="{% static 'hello/css/bootstrap-datepicker.min.css' %}" media="screen, projection"/>
+    <script src="{% static 'hello/js/bootstrap-datepicker.min.js' %}"></script>
+{% endblock %}
+
 {% block content %}
 
 <div class="container">
 <h1>42 Coffee Cups Test Assignment #5</h1>
-          <form id="main-form" action="{% url 'ajax_submit' %}" enctype="multipart/form-data" method="POST">
+          <form id="main-form" action="" enctype="multipart/form-data" method="POST">
               {% csrf_token %}
               <div class="row">
                   <div class="column">
@@ -24,7 +30,6 @@
                     <div class="form-group row">
                       <label for="id_last_name" class="col-md-4 col-form-label">Last Name:</label>
                       <div class="col-md-8">
-<!--                        <input type="text" class="form-control" id="lastName">-->
                           {{ form.last_name|add_css:"form-control" }}{% if field.errors %}{{ error }}{% endif %}
                       </div>
                     </div>
@@ -32,7 +37,6 @@
                     <div class="form-group row">
                       <label for="id_date_of_birth" class="col-md-4 col-form-label">Date of birth:</label>
                       <div class="col-md-8">
-<!--                        <input type="text" class="form-control" id="datepicker" data-provide="datepicker">-->
                           {{ form.date_of_birth|add_css:"form-control" }}{% if field.errors %}{{ error }}{% endif %}
                       </div>
                     </div>
@@ -40,7 +44,6 @@
                     <div class="form-group row">
                       <label for="id_photo" class="col-md-4 col-form-label">Photo:</label>
                       <div class="col-md-8">
-<!--                        <input type="text" class="form-control" id="photo">-->
                           {{ form.photo }}{% if field.errors %}{{ error }}{% endif %}
                       </div>
                     </div>
@@ -65,7 +68,6 @@
                       <div class="form-group row">
                       <label for="id_email" class="col-md-4 col-form-label">Email:</label>
                       <div class="col-md-8">
-<!--                        <input type="text" class="form-control" id="email">-->
                           {{ form.email|add_css:"form-control" }}{% if field.errors %}{{ error }}{% endif %}
                       </div>
                      </div>
@@ -73,7 +75,6 @@
                       <div class="form-group row">
                       <label for="id_skype" class="col-md-4 col-form-label">Skype:</label>
                       <div class="col-md-8">
-<!--                        <input type="text" class="form-control" id="skype">-->
                           {{ form.skype|add_css:"form-control" }}{% if field.errors %}{{ error }}{% endif %}
                       </div>
                      </div>
@@ -81,7 +82,6 @@
                       <div class="form-group row">
                       <label for="id_jabber" class="col-md-4 col-form-label">Jabber:</label>
                       <div class="col-md-8">
-<!--                        <input type="text" class="form-control" id="jabber">-->
                           {{ form.jabber|add_css:"form-control" }}{% if field.errors %}{{ error }}{% endif %}
                       </div>
                      </div>
@@ -89,7 +89,6 @@
                       <div class="form-group row">
                       <label for="id_other_contacts" class="col-md-4 col-form-label">Other:</label>
                       <div class="col-md-8">
-<!--                        <textarea type="text" class="form-control area" id="other"></textarea>-->
                           {{ form.other_contacts|add_css:"form-control" }}{% if field.errors %}{{ error }}{% endif %}
                       </div>
                      </div>
@@ -97,7 +96,6 @@
                       <div class="form-group row">
                       <label for="id_bio" class="col-md-4 col-form-label">Bio:</label>
                       <div class="col-md-8 bio">
-<!--                        <textarea type="text" class="form-control area" id="bio"></textarea>-->
                           {{ form.bio|add_css:"form-control" }}{% if field.errors %}{{ error }}{% endif %}
                       </div>
                      </div>
@@ -115,23 +113,9 @@
     </div>
 </div>
 
-
-<script>
-
-    $('#id_date_of_birth').datepicker({
-	uiLibrary: 'bootstrap4',
-	iconsLibrary: 'fontawesome',
-	// minDate: 0,
-	// minDate: function(){
-	//   return $('#endDate').val();
-	// },
-	locale: 'ua-ua',
-	format: 'yyyy-mm-dd',
-	// startDate: '-3d',
-	// maxDate: function () {
-	//     return $('#endDate').val();
-	// }
-})
-</script>
+{% block extra_body %}
+    <script src="{% static 'hello/js/edit-form.js' %}"></script>
+    <script src="http://malsup.github.com/jquery.form.js"></script>
+{% endblock %}
 
 {% endblock %}

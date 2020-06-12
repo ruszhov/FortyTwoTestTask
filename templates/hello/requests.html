@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 
+{% load static %}
+
 {% block title %}Requests{%endblock%}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'hello/css/requests.css' %}" media="screen, projection"/>
+{% endblock %}
 
 {% block content %}
 
@@ -31,4 +37,8 @@
         </tbody>
     </table>
 </div>
+{% endblock %}
+
+{% block extra_body %}
+    <script src="{% static 'hello/js/requests.js' %}"></script>
 {% endblock %}
