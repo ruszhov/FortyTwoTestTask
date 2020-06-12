@@ -457,4 +457,3 @@ class HttpRequestLogPriorityTest(TestCase):
         httplog.save()
         self.assertEqual(
             HttpRequestLog.objects.first().priority, httplog.priority)
-
