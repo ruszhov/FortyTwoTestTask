@@ -3,7 +3,7 @@ from django.test import TestCase
 from django.test import Client
 from django.contrib.auth.models import User
 from django.template import Template, Context
-from .views import hello, http_requests, ajax_submit
+from .views import hello, http_requests, edit_form
 from .models import Contact, HttpRequestLog, ModelActionLog
 from .forms import ContactForm
 import datetime
@@ -253,12 +253,12 @@ class ContactFormTest(TestCase):
         """
         check url status code, test view
         """
-        url = reverse('ajax_submit')
+        url = reverse('edit_form')
         response = self.client.get(url)
         self.assertEquals(response.status_code, 302)
 
-        view = resolve('/ajax_submit/')
-        self.assertEquals(view.func, ajax_submit)
+        view = resolve('/edit_form/')
+        self.assertEquals(view.func, edit_form)
 
     def test_validation_data(self):
         """
@@ -286,7 +286,7 @@ class ContactFormTest(TestCase):
         '''
         Checking save data with form
         '''
-        form_url = reverse('ajax_submit')
+        form_url = reverse('edit_form')
         # log in to acscess page
         c = Client()
         c.login(username='admin', password='admin')
@@ -448,7 +448,7 @@ class HttpRequestLogPriorityTest(TestCase):
         '''
         url = reverse('home')
         self.client.get(url)
-        url = reverse('ajax_submit')
+        url = reverse('edit_form')
         self.client.get(url)
         url = reverse('http_requests')
         self.client.get(url)
