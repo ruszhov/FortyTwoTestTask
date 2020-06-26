@@ -16,7 +16,7 @@ $(document).ready(function() {
         success: showResponse, // post-submit callback
 
         // other available options:
-        url: '/ajax_submit/', // override for form's 'action' attribute
+        url: '/edit_form/', // override for form's 'action' attribute
         type: 'post', // 'get' or 'post', override for form's 'method' attribute
         dataType: 'json', // 'xml', 'script', or 'json' (expected server response type)
         clearForm: false, // clear all form fields after successful submit

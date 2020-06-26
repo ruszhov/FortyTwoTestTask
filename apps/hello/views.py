@@ -34,7 +34,7 @@ def ajax_request(request):
 
 
 @login_required(login_url=login_url)
-def ajax_submit(request):
+def edit_form(request):
     current_entry = Contact.objects.all().first()
     if request.method == 'POST' and request.is_ajax():
         form = ContactForm(request.POST, request.FILES, instance=current_entry)
