@@ -3,9 +3,9 @@ from django.test import TestCase
 from django.test import Client
 from django.contrib.auth.models import User
 from django.template import Template, Context
-from .views import hello, http_requests, edit_form
-from .models import Contact, HttpRequestLog, ModelActionLog
-from .forms import ContactForm
+from apps.hello.views import hello, http_requests, edit_form
+from apps.hello.models import Contact, HttpRequestLog, ModelActionLog
+from apps.hello.forms import ContactForm
 import datetime
 from freezegun import freeze_time
 

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Contact, HttpRequestLog, ModelActionLog
+from apps.hello.models import Contact, HttpRequestLog, ModelActionLog
 
 
 class ContactAdmin(admin.ModelAdmin):

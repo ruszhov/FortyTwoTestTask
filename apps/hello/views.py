@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponse
-from .models import Contact, HttpRequestLog
-from .forms import ContactForm
+from apps.hello.models import Contact, HttpRequestLog
+from apps.hello.forms import ContactForm
 from django.contrib.auth.decorators import login_required
 import json
 
