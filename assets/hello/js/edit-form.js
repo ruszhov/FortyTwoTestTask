@@ -7,10 +7,10 @@ $(document).ready(function() {
         format: 'yyyy-mm-dd',
     });
 
-    $('#id_username, #id_password').addClass('form-controll');
+    $('#id_username, #id_password').addClass('form-control');
     $('.spinner-border').hide();
 
-    let options = {
+    const options = {
         // target:        '#output2',   // target element(s) to be updated with server response
         beforeSubmit: showRequest, // pre-submit callback
         success: showResponse, // post-submit callback

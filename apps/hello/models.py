@@ -54,7 +54,7 @@ class ModelActionLog(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return "{} on {} ({})".format(
+        return '{} on {} ({})'.format(
             self.action,
             self.model_name,
             self.instance)

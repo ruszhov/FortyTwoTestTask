@@ -21,4 +21,4 @@ def input_class(bound_field):
 
 @register.filter(name='add_css')
 def add_css(field, css):
-    return field.as_widget(attrs={"class": css})
+    return field.as_widget(attrs={'class': css})

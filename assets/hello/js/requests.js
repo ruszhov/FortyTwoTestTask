@@ -10,7 +10,7 @@ $(document).ready(function() {
                 cache: false,
                 success: function(data) {
                     const total = JSON.parse(data)["total"];
-                    if (total != 0) {
+                    if (total !== 0) {
                         document.title = `(${total}) - 42 CC Ticket#13 - Requests`;
                         $('span#new-entries').html(total);
                     }
