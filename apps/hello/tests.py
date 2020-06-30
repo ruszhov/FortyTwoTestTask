@@ -278,7 +278,6 @@ class ContactFormTest(TestCase):
                 'date_of_birth': datetime.datetime.now().date(),
                 'jabber': 'sdhsjdhjdh---.@kk'
             }
-        assert datetime.datetime.now() != datetime.datetime(2012, 1, 14)
         form = ContactForm(data=data)
         self.assertFalse(form.is_valid())
         self.assertEqual(form.errors, {
