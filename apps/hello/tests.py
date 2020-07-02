@@ -12,9 +12,7 @@ from freezegun import freeze_time
 
 class InitialDataTest(TestCase):
     def test_adminuser(self):
-        '''
-        check if initial superuser exists and has default credentials
-        '''
+        """check if initial superuser exists and has default credentials"""
         default_creds = 'admin:admin'
         username, password = default_creds.split(':')
         u = User.objects.all().first()
@@ -23,11 +21,9 @@ class InitialDataTest(TestCase):
         self.assertEqual(u.check_password(password), True)
 
     def test_model(self):
-        '''
-        check if initial contact data exist
-        '''
+        """check if initial contact data exist"""
         expected = ['Ruslan', 'ruszhov@42.cc.co', 'ruszhov@gmail.com']
-        c = Contact.objects.all().first()
+        c = Contact.objects.first()
         self.assertEqual([c.first_name, c.jabber, c.email], expected)
 
 
@@ -35,17 +31,13 @@ class HomeTests(TestCase):
     fixtures = ['fixtures/initial_data.json']
 
     def test_hello_view_status_code(self):
-        '''
-        check status code
-        '''
+        """check status code"""
         url = reverse('home')
         response = self.client.get(url)
         self.assertEquals(response.status_code, 200)
 
     def test_hello_url_resolves_home_view(self):
-        '''
-        check url resolving
-        '''
+        """check url resolving"""
         view = resolve('/')
         self.assertEquals(view.func, hello)
 
@@ -66,58 +58,44 @@ class ContactModelTest(TestCase):
         )
 
     def test_first_name_label(self):
-        '''
-        check if the first name has label
-        '''
-        contact = Contact.objects.all().first()
+        """check if the first name has label"""
+        contact = Contact.objects.first()
         field_label = contact._meta.get_field('first_name').verbose_name
         self.assertEquals(field_label, 'First Name')
 
     def test_last_name_label(self):
-        '''
-        check if the last name has label
-        '''
-        contact = Contact.objects.all().first()
+        """check if the last name has label"""
+        contact = Contact.objects.first()
         field_label = contact._meta.get_field('last_name').verbose_name
         self.assertEquals(field_label, 'Last Name')
 
     def test_date_of_birth_label(self):
-        '''
-        check if the date of birth has label
-        '''
-        contact = Contact.objects.all().first()
+        """check if the date of birth has label"""
+        contact = Contact.objects.first()
         field_label = contact._meta.get_field('date_of_birth').verbose_name
         self.assertEquals(field_label, 'Date of birth')
 
     def test_first_name_max_length(self):
-        '''
-        check max length of first name
-        '''
-        contact = Contact.objects.all().first()
+        """check max length of first name"""
+        contact = Contact.objects.first()
         max_length = contact._meta.get_field('first_name').max_length
         self.assertEquals(max_length, 50)
 
     def test_last_name_max_length(self):
-        '''
-        check max length of last name
-        '''
-        contact = Contact.objects.all().first()
+        """check max length of last name"""
+        contact = Contact.objects.first()
         max_length = contact._meta.get_field('last_name').max_length
         self.assertEquals(max_length, 50)
 
     def test_bio_max_length(self):
-        '''
-        check max length of bio
-        '''
-        contact = Contact.objects.all().first()
+        """check max length of bio"""
+        contact = Contact.objects.first()
         max_length = contact._meta.get_field('bio').max_length
         self.assertEquals(max_length, 200)
 
     def test_skype_max_length(self):
-        '''
-        check max length of skype
-        '''
-        contact = Contact.objects.all().first()
+        """check max length of skype"""
+        contact = Contact.objects.first()
         max_length = contact._meta.get_field('skype').max_length
         self.assertEquals(max_length, 50)
 
@@ -128,10 +106,8 @@ class TestPage(TestCase):
         self.client = Client()
 
     def test_index_page(self):
-        '''
-        checking index page, template, context
-        '''
-        contact = Contact.objects.all().first()
+        """checking index page, template, context"""
+        contact = Contact.objects.first()
         url = reverse('home')
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
@@ -143,24 +119,18 @@ class TestPage(TestCase):
 class HomeRequestsTests(TestCase):
 
     def test_requests_status_code(self):
-        '''
-        check status code
-        '''
+        """check status code"""
         url = reverse('http_requests')
         response = self.client.get(url)
         self.assertEquals(response.status_code, 200)
 
     def test_requests_url_resolve(self):
-        '''
-        check url equals
-        '''
+        """check url equals"""
         url = reverse('http_requests')
         self.assertEqual(url, '/http_requests/')
 
     def test_requests_url_resolves_view(self):
-        '''
-        check url resolving
-        '''
+        """check url resolving"""
         view = resolve('/http_requests/')
         self.assertEquals(view.func, http_requests)
 
@@ -177,10 +147,7 @@ class HttpLoggingRequestMiddlewareTest(TestCase):
         )
 
     def test_url_request_method(self):
-        '''
-        checking request method
-        :return:
-        '''
+        """checking request method"""
 
         url = reverse('http_requests')
         entry = HttpRequestLog.objects.all().first()
@@ -188,13 +155,12 @@ class HttpLoggingRequestMiddlewareTest(TestCase):
         self.assertEquals(entry.request_method, 'GET')
 
     def test_create_entries(self):
-        '''
+        """
         create 10 entries, check if items are created (getting latest id),
         check if returns 10 items
         create 5 more, check if items are created (getting latest id),
         check if returns 10 newest
-        :return:
-        '''
+        """
 
         def create_record(id):
             HttpRequestLog.objects.create(
@@ -253,9 +219,7 @@ class ContactFormTest(TestCase):
         }
 
     def test_form_url_view(self):
-        '''
-        check url status code, test view
-        '''
+        """check url status code, test view"""
         url = reverse('edit_form')
         response = self.client.get(url)
         self.assertEquals(response.status_code, 302)
@@ -263,21 +227,16 @@ class ContactFormTest(TestCase):
         view = resolve('/edit_form/')
         self.assertEquals(view.func, edit_form)
 
-    # @freeze_time("1901-01-14")
+    @freeze_time("2020-07-02")
     def test_validation_data(self):
-        '''
-        check custom and required validations
-        :return:
-        '''
-        with freeze_time('1901-01-14'):
-            assert datetime.datetime.now() == datetime.datetime(1901, 1, 14)
-            data = {
-                'first_name': '',
-                'last_name': '',
-                'email': '',
-                'date_of_birth': datetime.datetime.now().date(),
-                'jabber': 'sdhsjdhjdh---.@kk'
-            }
+        """check custom and required validations"""
+        data = {
+            'first_name': '',
+            'last_name': '',
+            'email': '',
+            'date_of_birth': datetime.datetime(1901, 1, 14),
+            'jabber': 'sdhsjdhjdh---.@kk'
+        }
         form = ContactForm(data=data)
         self.assertFalse(form.is_valid())
         self.assertEqual(form.errors, {
@@ -289,9 +248,7 @@ class ContactFormTest(TestCase):
         })
 
     def test_form_saving(self):
-        '''
-        Checking save data with form
-        '''
+        """Checking save data with form"""
         form_url = reverse('edit_form')
         # log in to acscess page
         c = Client()
@@ -314,7 +271,7 @@ class ContactFormTest(TestCase):
         r = c.post(form_url, data)
         self.assertEqual(r.status_code, 200)
         # retrieve from DB abd check if data was saved
-        instance = Contact.objects.all().first()
+        instance = Contact.objects.first()
         self.assertEqual(instance.first_name, new_data['first_name'])
         self.assertEqual(instance.last_name, new_data['last_name'])
         self.assertEqual(instance.date_of_birth,
@@ -330,15 +287,12 @@ class ContactFormTest(TestCase):
 class TemplateTagsTestCase(TestCase):
 
     def setUp(self):
-        self.contact = Contact.objects.all().first()
+        self.contact = Contact.objects.first()
         self.template = Template(
             '{% load edit_object %}{% edit_link contact %}')
 
     def test_edit_link_templatetag(self):
-        '''
-        checking admin edit url
-        :return:
-        '''
+        """checking admin edit url"""
         edit_link = self.template.render(Context(dict(contact=self.contact)))
         self.assertEqual('/admin/hello/contact/1/', edit_link)
 
@@ -364,9 +318,7 @@ class AuditLoggerTest(TestCase):
         }
 
     def test_max_length(self):
-        '''
-        check max length of ModelActionLog's fields
-        '''
+        """check max length of ModelActionLog's fields"""
         logentry = ModelActionLog.objects.all().first()
         max_length_model_name = logentry._meta.get_field('model_name')\
             .max_length
@@ -377,10 +329,7 @@ class AuditLoggerTest(TestCase):
         self.assertEquals(max_length_action, 16)
 
     def test_object_create(self):
-        '''
-        Checking post_save signal, 'create' action
-        :return:
-        '''
+        """Checking post_save signal, 'create' action"""
         count = ModelActionLog.objects.count()
         contact = Contact.objects.create(**self._contact)
         new_count = ModelActionLog.objects.count()
@@ -393,10 +342,7 @@ class AuditLoggerTest(TestCase):
         self.assertEquals(log_entry.action, unicode('create'))
 
     def test_object_update(self):
-        '''
-        Checking post_save signal, 'update' action
-        :return:
-        '''
+        """Checking post_save signal, 'update' action"""
         count = ModelActionLog.objects.count()
 
         contact = Contact.objects.get()
@@ -413,10 +359,7 @@ class AuditLoggerTest(TestCase):
         self.assertEquals(log_entry.action, unicode('update'))
 
     def test_object_delete(self):
-        '''
-        Checking post_delete signal
-        :return:
-        '''
+        """Checking post_delete signal"""
         count = ModelActionLog.objects.count()
 
         contact = Contact.objects.get()
@@ -435,9 +378,7 @@ class AuditLoggerTest(TestCase):
 class HttpRequestLogPriorityTest(TestCase):
 
     def test_logging_with_priority(self):
-        '''
-        Checking logging with priority field
-        '''
+        """Checking logging with priority field"""
 
         client = Client()
         client.get('/')
@@ -449,9 +390,7 @@ class HttpRequestLogPriorityTest(TestCase):
         self.assertEquals(entry.priority, 0)
 
     def test_sort_by_priority(self):
-        '''
-        Checking sorting by priority
-        '''
+        """Checking sorting by priority"""
         url = reverse('home')
         self.client.get(url)
         url = reverse('edit_form')

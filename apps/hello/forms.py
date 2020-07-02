@@ -8,9 +8,7 @@ regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
 
 
 def check_jabber(jabber):
-    '''
-    Check if Jabber line looks like email
-    '''
+    """Check if Jabber line looks like email"""
     if jabber is not None and jabber != '':
         if (re.search(regex, jabber)):
             return True
@@ -19,10 +17,8 @@ def check_jabber(jabber):
 
 
 def check_years(birth_date):
-    '''
-    Check if age isn't longer than 100 years
-    '''
-    if birth_date is not None and birth_date != '':
+    """Check if age isn't longer than 100 years"""
+    if isinstance(birth_date, datetime.date):
         age = datetime.datetime.today().year - birth_date.year
         if age <= 100:
             return True

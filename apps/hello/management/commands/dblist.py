@@ -3,13 +3,9 @@ from django.db.models import get_models
 
 
 class Command(BaseCommand):
-    '''
-    List of all models with counting of objects in each of them
-    '''
+    """List of all models with counting of objects in each of them"""
     def handle(self, *args, **options):
-        '''
-        command's hande method
-        '''
+        """command's handle method"""
         counted_models = {len(model.objects.all()): model
                           for model in get_models()}
 
